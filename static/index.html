@@ -1,145 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UpLevyl Enterprise Domain API</title>
-  <meta name="description"
-    content="Query your enterprise knowledge base powered by Vertex AI and get persona-driven AI answers." />
+  <title>UpLevyl — Workplace Violence Response for Managers</title>
+  <meta name="description" content="Real-time, jurisdiction-specific guidance for managers responding to workplace violence and employee disclosures. Auditable. Confidential. Attorney-supervised." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
 </head>
-
 <body>
-  <!-- ── Background particles ────────────────────────────────────────────── -->
-  <div class="bg-particles" id="bgParticles"></div>
 
-  <!-- ── Top nav ────────────────────────────────────────────────────────── -->
-  <nav class="navbar">
+<!-- ── Animated background canvas ───────────────────────────────────────── -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- ── Navigation ─────────────────────────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="nav-inner">
     <div class="nav-logo">
-      <span class="logo-icon">⬡</span>
-      <span class="logo-text">UpLevyl <strong>Enterprise</strong></span>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 2L26 8.5V19.5L14 26L2 19.5V8.5L14 2Z" stroke="#FF6B00" stroke-width="2" fill="none"/>
+        <path d="M14 7L21 11V17L14 21L7 17V11L14 7Z" fill="#FF6B00" fill-opacity="0.25"/>
+      </svg>
+      <span class="nav-brand">UpLevyl</span>
     </div>
-    <div class="nav-badge">Domain API </div>
-  </nav>
+    <div class="nav-links">
+      <a href="#solution">Solution</a>
+      <a href="#compare">Why UpLevyl</a>
+      <a href="#demo">See Demo</a>
+    </div>
+    <a href="mailto:demo@uplevyl.com" class="btn-primary btn-sm">Book a Demo</a>
+  </div>
+</nav>
 
-  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
-  <header class="hero">
-    <div class="hero-tag">KNOWLEDGE LAYER BASED RETRIEVAL</div>
-    <h1 class="hero-title">
-      Enterprise Domain<br />
-      <span class="gradient-text">Intelligence API</span>
+<!-- ── Hero ───────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag">Workplace Violence Response Platform</div>
+    <h1 class="hero-headline">
+      86% of your managers have<br/>
+      <span class="text-gradient">no response protocol.</span>
     </h1>
-    <p class="hero-subtitle">
-      Ask any business question. Define your expert persona.<br />
-      Get knowledge-base–grounded answers in seconds.
+    <p class="hero-sub">
+      When an employee discloses a threatening situation, your manager has seconds to decide. One wrong step creates legal exposure in 44 states. UpLevyl provides real-time, jurisdiction-specific guidance — auditable, confidential, and attorney-supervised.
     </p>
-  </header>
-
-  <!-- ── Main card ──────────────────────────────────────────────────────── -->
-  <main class="main-card-wrapper">
-    <div class="card" id="queryCard">
-
-      <!-- Query -->
-      <div class="field-group">
-        <label class="field-label" for="queryInput">
-          <span class="label-icon">🔍</span> Your Question
-        </label>
-        <textarea id="queryInput" class="textarea" rows="4"
-          placeholder="e.g. What are the top benefits available to employees after year 1?"
-          aria-label="Enter your query"></textarea>
-        <div class="char-counter" id="queryCounter">0 / 1000</div>
+    <div class="hero-actions">
+      <a href="#demo" class="btn-primary">See It In Action</a>
+      <a href="#cost" class="btn-ghost">See the Cost of Inaction</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num">97%</span>
+        <span class="stat-label">EEOC employer win rate when protocols are followed</span>
       </div>
-
-      <!-- Persona -->
-      <div class="field-group">
-        <label class="field-label" for="personaInput">
-          <span class="label-icon">🎭</span> Answering Persona
-        </label>
-        <input type="text" id="personaInput" class="input"
-          placeholder="e.g. Senior HR Director at a Fortune 500 company" aria-label="Define the answering persona" />
-        <div class="field-hint">The AI will respond in the voice of this persona.</div>
+      <div class="hero-stat">
+        <span class="stat-num">10k+</span>
+        <span class="stat-label">Legal documents across all 50 states</span>
       </div>
-
-      <!-- Persona chips -->
-      <div class="persona-chips">
-        <span class="chip-label">Quick personas:</span>
-        <button class="chip" data-persona="a senior HR Director with 15 years of enterprise experience">HR
-          Director</button>
-        <button class="chip" data-persona="a seasoned legal counsel specializing in corporate compliance">Legal
-          Counsel</button>
-        <button class="chip" data-persona="a results-driven CFO focused on cost efficiency">CFO</button>
-        <button class="chip" data-persona="a technical architect with deep expertise in cloud infrastructure">Tech
-          Architect</button>
+      <div class="hero-stat">
+        <span class="stat-num">44</span>
+        <span class="stat-label">States with different legal obligations</span>
       </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Generate button -->
-      <button class="btn-generate" id="generateBtn" aria-label="Generate Answer">
-        <span class="btn-inner">
-          <span class="btn-icon">⚡</span>
-          <span class="btn-text">Generate Answer</span>
-        </span>
-        <span class="btn-glow"></span>
+<!-- ── Cost of Inaction ────────────────────────────────────────────────────── -->
+<section id="cost">
+  <div class="container">
+    <div class="section-tag">The Cost of Inaction</div>
+    <h2 class="section-title gradient-heading">Every unguided response is a liability.</h2>
+    <p class="section-sub">Workplace violence costs U.S. employers over $8.3 billion annually — not counting the legal exposure that follows every mishandled disclosure.</p>
+    <div class="cost-grid">
+      <div class="cost-card">
+        <div class="cost-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="cost-amount">$8.3B</div>
+        <div class="cost-desc">Annual cost of workplace violence to U.S. employers (lost productivity, turnover, litigation)</div>
+      </div>
+      <div class="cost-card cost-card--highlight">
+        <div class="cost-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </div>
+        <div class="cost-amount">$217K</div>
+        <div class="cost-desc">Average jury award in workplace violence negligence cases — often due to lack of documented response</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg>
+        </div>
+        <div class="cost-amount">$664M</div>
+        <div class="cost-desc">EEOC monetary recovery from employers in workplace harassment and violence cases (FY 2023)</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="cost-amount">3–5%</div>
+        <div class="cost-desc">Utilization rate of EAP programs — the current "solution" that leaves 95% of employees without support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Legal Complexity ────────────────────────────────────────────────────── -->
+<section id="legal">
+  <div class="container">
+    <div class="section-tag">The Legal Minefield</div>
+    <h2 class="section-title gradient-heading">44 states. Different laws.<br/>One wrong step.</h2>
+    <p class="section-sub">Mandatory reporting obligations, accommodation requirements, protective order procedures, and retaliation protections vary dramatically by state. What's required in California is different from Texas — and neither is optional.</p>
+    <div class="legal-grid">
+      <div class="legal-item">
+        <div class="legal-item-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div>
+          <div class="legal-item-title">Mandatory Reporting</div>
+          <div class="legal-item-desc">18 states require employers to report certain workplace violence incidents. The trigger thresholds differ by state.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-item-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        </div>
+        <div>
+          <div class="legal-item-title">Accommodation Requirements</div>
+          <div class="legal-item-desc">27 states require employers to provide schedule or location accommodations for employees affected by domestic violence.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-item-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="legal-item-title">Protection Order Support</div>
+          <div class="legal-item-desc">Employers in 34 states have specific obligations when an employee obtains a restraining order that affects the workplace.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-item-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="legal-item-title">Retaliation Liability</div>
+          <div class="legal-item-desc">Taking adverse employment action after a disclosure — even unintentionally — creates retaliation liability in all 50 states.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Solution Pillars ────────────────────────────────────────────────────── -->
+<section id="solution">
+  <div class="container">
+    <div class="section-tag">The Solution</div>
+    <h2 class="section-title gradient-heading">Real-time guidance. Defensible records.<br/>Protected managers.</h2>
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Instant Protocol</h3>
+        <p>Manager inputs the situation. Within seconds: jurisdiction-specific steps, legal obligations, and what NOT to say — drawn from 10,000+ attorney-reviewed documents.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        </div>
+        <h3>Multi-State Compliance</h3>
+        <p>Automatic jurisdiction detection. Guidance cites specific statutes — Texas Labor Code, California Penal Code, VAWA — so your managers always know the legal basis.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Confidential Disclosure</h3>
+        <p>Structured disclosure flow that guides managers through the right questions to ask — and the right ones to avoid — preventing inadvertent legal exposure.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>Audit Trail</h3>
+        <p>Every interaction is anonymously logged with a timestamp and record ID — creating the defensible paper trail that protects your organization in EEOC investigations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Comparison ──────────────────────────────────────────────────────────── -->
+<section id="compare">
+  <div class="container">
+    <div class="section-tag">Why Not the Alternatives</div>
+    <h2 class="section-title gradient-heading">Your managers already have something.<br/>It's not working.</h2>
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Alternative</th>
+            <th>Why It Fails</th>
+            <th>UpLevyl Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>EAP Program</strong></td>
+            <td>3–5% utilization. No manager guidance. No compliance documentation. Available Monday morning — not during the incident.</td>
+            <td>Real-time. Manager-focused. Jurisdiction-specific. Creates defensible records.</td>
+          </tr>
+          <tr>
+            <td><strong>Outside Legal Counsel</strong></td>
+            <td>$500–$800/hour. Available in days, not seconds. Creates attorney-client complexity that limits documentation.</td>
+            <td>Instant, at scale. Fraction of the cost. Attorney-supervised knowledge base, not billable hours.</td>
+          </tr>
+          <tr>
+            <td><strong>Annual Training</strong></td>
+            <td>Static content. Forgotten within 90 days. No state-specific guidance. No documentation trail. One size fits no state.</td>
+            <td>Dynamic, real-time retrieval. Jurisdiction-aware. Generates documentation at point of incident.</td>
+          </tr>
+          <tr>
+            <td><strong>Google / DIY Research</strong></td>
+            <td>No legal grounding. No jurisdiction specificity. No documentation. Wrong guidance compounds liability.</td>
+            <td>10,000+ attorney-reviewed documents. Specific statute citations. Audit-ready output.</td>
+          </tr>
+          <tr>
+            <td><strong>Futures Without Violence</strong></td>
+            <td>Advocacy-focused, not compliance-focused. No jurisdiction-specific guidance. No manager workflow. Not built for enterprise procurement.</td>
+            <td>Built for enterprise legal and HR teams. SOC 2, HIPAA-aware, GDPR-compatible. Compliance-first design.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Interactive Demo ────────────────────────────────────────────────────── -->
+<section id="demo">
+  <div class="container">
+    <div class="section-tag">See It In Action</div>
+    <h2 class="section-title gradient-heading">Manager Response Assistant</h2>
+    <p class="section-sub">A team member has come to you with a concern. Describe the situation and your state — we'll guide your next steps with jurisdiction-specific, legally-grounded guidance.</p>
+
+    <!-- Audit status bar -->
+    <div class="audit-bar">
+      <div class="audit-bar-left">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>All interactions anonymously logged</span>
+        <span class="audit-dot"></span>
+        <span>No PII collected or stored</span>
+      </div>
+      <button class="audit-log-toggle" id="auditLogToggle">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        View Audit Log
       </button>
     </div>
 
-    <!-- ── Answer panel ─────────────────────────────────────────────────── -->
-    <div class="answer-panel" id="answerPanel" aria-live="polite" hidden>
-
-      <!-- Loading state -->
-      <div class="loader-container" id="loaderContainer">
-        <div class="loader-ring"></div>
-        <div class="loader-steps" id="loaderSteps">
-          <div class="step active" id="step1">🔍 Searching knowledge base…</div>
-          <div class="step" id="step2">🧠 Synthesizing context…</div>
-          <div class="step" id="step3">🎭 Drafting persona response…</div>
-        </div>
+    <!-- Audit log panel -->
+    <div class="audit-log-panel" id="auditLogPanel" hidden>
+      <div class="audit-log-header">
+        <h4>Audit Log — Current Session</h4>
+        <span class="audit-log-note">Records are anonymized. No personally identifiable information is logged.</span>
       </div>
-
-      <!-- Answer content -->
-      <div class="answer-content" id="answerContent" hidden>
-        <div class="answer-header">
-          <div class="answer-persona-badge" id="answerPersonaBadge"></div>
-          <div class="answer-meta" id="answerMeta"></div>
-        </div>
-        <div class="answer-text" id="answerText"></div>
-
-        <!-- Sources -->
-        <div class="sources-section" id="sourcesSection" hidden>
-          <div class="sources-title">
-            <span>📚</span> Knowledge Sources
-          </div>
-          <ul class="sources-list" id="sourcesList"></ul>
-        </div>
-
-        <!-- Actions -->
-        <div class="answer-actions">
-          <button class="btn-action" id="copyBtn" title="Copy answer">
-            <span>📋</span> Copy
-          </button>
-          <button class="btn-action" id="newQueryBtn" title="New query">
-            <span>↩</span> New Query
-          </button>
-        </div>
-      </div>
-
-      <!-- Error state -->
-      <div class="error-container" id="errorContainer" hidden>
-        <div class="error-icon">⚠️</div>
-        <div class="error-text" id="errorText"></div>
+      <div class="audit-table-wrap">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Record ID</th>
+              <th>Jurisdiction</th>
+              <th>Response Mode</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody">
+            <tr class="audit-empty-row"><td colspan="5">No interactions logged yet.</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </main>
 
-  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
-  <footer class="footer">
-    <p>UpLevyl Enterprise Domain API </p>
-  </footer>
+    <!-- Industry selector -->
+    <div class="industry-tabs">
+      <button class="industry-tab active" data-industry="retail">Retail</button>
+      <button class="industry-tab" data-industry="healthcare">Healthcare</button>
+      <button class="industry-tab" data-industry="manufacturing">Manufacturing</button>
+      <button class="industry-tab" data-industry="hospitality">Hospitality</button>
+    </div>
 
-  <script src="app.js"></script>
+    <!-- Scenario cards -->
+    <div class="scenario-grid" id="scenarioGrid"></div>
+
+    <!-- Query input area -->
+    <div class="query-card">
+      <div class="query-header">
+        <label for="queryInput" class="query-label">Describe the situation</label>
+        <div class="response-mode-wrap">
+          <label for="responseMode" class="mode-label">Response Mode</label>
+          <select id="responseMode" class="mode-select">
+            <option value="Manager Guidance" selected>Manager Guidance</option>
+            <option value="Legal Compliance">Legal Compliance</option>
+            <option value="HR Policy">HR Policy</option>
+            <option value="Executive Summary">Executive Summary</option>
+          </select>
+        </div>
+      </div>
+      <textarea
+        id="queryInput"
+        class="query-textarea"
+        placeholder="Describe what happened and include the state where your employee works — we'll guide your next steps."
+        maxlength="1500"
+        rows="4"
+      ></textarea>
+      <div class="query-footer">
+        <span class="char-counter"><span id="charCount">0</span> / 1500</span>
+        <button id="generateBtn" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          Get Guidance
+        </button>
+      </div>
+    </div>
+
+    <!-- Conversation thread -->
+    <div class="conversation" id="conversation" hidden></div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
+<section id="cta">
+  <div class="container">
+    <h2 class="cta-headline gradient-heading">Ready to protect your managers<br/>and your organization?</h2>
+    <p class="cta-sub">Join enterprise teams across Retail, Healthcare, Manufacturing, and Hospitality who are replacing guesswork with jurisdiction-specific, auditable guidance.</p>
+    <a href="mailto:demo@uplevyl.com" class="btn-primary btn-lg">Talk to Our Team</a>
+    <p class="cta-note">Supporting all employees, regardless of gender. Built for enterprise compliance teams.</p>
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2L26 8.5V19.5L14 26L2 19.5V8.5L14 2Z" stroke="#FF6B00" stroke-width="2" fill="none"/>
+          <path d="M14 7L21 11V17L14 21L7 17V11L14 7Z" fill="#FF6B00" fill-opacity="0.25"/>
+        </svg>
+        <span>UpLevyl</span>
+      </div>
+      <div class="footer-trust">
+        <span class="trust-badge">SOC 2 Type II</span>
+        <span class="trust-badge">HIPAA-Aware</span>
+        <span class="trust-badge">GDPR Compatible</span>
+        <span class="trust-badge">Attorney-Supervised</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Reviewed by licensed attorneys. 50-state coverage. 10,000+ legal documents.</span>
+      <span>No personally identifiable information collected or stored.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Compliance document modal -->
+<div class="modal-overlay" id="complianceModal" hidden>
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-tag">CONFIDENTIAL — Manager Compliance Record</div>
+        <h3 class="modal-title">Compliance Documentation</h3>
+      </div>
+      <button class="modal-close" id="modalClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-ghost" id="modalClose2">Close</button>
+      <button class="btn-primary" id="printBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+        Download / Print PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
-
 </html>

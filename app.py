@@ -1,6 +1,6 @@
 """
-Flask backend for UpLevyl Enterprise Domain API demo.
-POST /api/ask  →  { query, persona }  →  { answer, sources, latency }
+Flask backend for UpLevyl GBV Manager Response API.
+POST /api/ask  →  { query, persona }  →  structured JSON response
 """
 
 import logging
@@ -37,7 +37,7 @@ def index():
 def ask():
     body    = request.get_json(force=True, silent=True) or {}
     query   = (body.get("query") or "").strip()
-    persona = (body.get("persona") or "a knowledgeable enterprise assistant").strip()
+    persona = (body.get("persona") or "Manager Guidance").strip()
 
     if not query:
         return jsonify({"error": "query is required"}), 400
@@ -45,8 +45,8 @@ def ask():
     logger.info("Received query=%r  persona=%r", query[:100], persona[:100])
 
     # 1. Retrieve context from Vertex AI Discovery Engine
-    search_result = vs.search(query)
-    segments      = search_result.get("results", [])
+    search_result  = vs.search(query)
+    segments       = search_result.get("results", [])
     search_latency = search_result.get("latency", 0)
 
     if "error" in search_result:
@@ -54,14 +54,14 @@ def ask():
 
     logger.info("Retrieved %d segment(s) in %ss", len(segments), search_latency)
 
-    # 2. Generate persona-flavored answer via Gemini
+    # 2. Generate structured persona response via Gemini
     try:
-        answer = pllm.generate_answer(query=query, persona=persona, segments=segments)
+        structured = pllm.generate_answer(query=query, persona=persona, segments=segments)
     except Exception as e:
         logger.error("LLM generation failed: %s", e, exc_info=True)
         return jsonify({"error": f"LLM generation failed: {e}"}), 500
 
-    # 3. Build source list (deduplicated by source_url/title)
+    # 3. Build deduplicated source list
     seen_sources = set()
     sources      = []
     for seg in segments:
@@ -74,10 +74,17 @@ def ask():
             })
 
     return jsonify({
-        "answer":         answer,
-        "sources":        sources,
-        "segments_found": len(segments),
-        "search_latency": search_latency,
+        # Structured fields from LLM
+        "guidance":                structured.get("guidance", ""),
+        "jurisdiction":            structured.get("jurisdiction", "Unknown"),
+        "citations":               structured.get("citations", []),
+        "clarification_questions": structured.get("clarification_questions", []),
+        "next_steps":              structured.get("next_steps", []),
+        "mandatory_reporting":     structured.get("mandatory_reporting", False),
+        # Search metadata
+        "sources":                 sources,
+        "segments_found":          len(segments),
+        "search_latency":          search_latency,
     })
 
 
@@ -90,5 +97,5 @@ def health():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8840))
-    logger.info("Starting UpLevyl Enterprise Domain API on port %d", port)
+    logger.info("Starting UpLevyl GBV Manager Response API on port %d", port)
     app.run(host="0.0.0.0", port=port, debug=True)
