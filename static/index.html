@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UpLevyl Enterprise Domain API</title>
+  <meta name="description"
+    content="Query your enterprise knowledge base powered by Vertex AI and get persona-driven AI answers." />
+  <link rel="stylesheet" href="styles.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- ── Background particles ────────────────────────────────────────────── -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <!-- ── Top nav ────────────────────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">UpLevyl <strong>Enterprise</strong></span>
+    </div>
+    <div class="nav-badge">Domain API </div>
+  </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-tag">KNOWLEDGE LAYER BASED RETRIEVAL</div>
+    <h1 class="hero-title">
+      Enterprise Domain<br />
+      <span class="gradient-text">Intelligence API</span>
+    </h1>
+    <p class="hero-subtitle">
+      Ask any business question. Define your expert persona.<br />
+      Get knowledge-base–grounded answers in seconds.
+    </p>
+  </header>
+
+  <!-- ── Main card ──────────────────────────────────────────────────────── -->
+  <main class="main-card-wrapper">
+    <div class="card" id="queryCard">
+
+      <!-- Query -->
+      <div class="field-group">
+        <label class="field-label" for="queryInput">
+          <span class="label-icon">🔍</span> Your Question
+        </label>
+        <textarea id="queryInput" class="textarea" rows="4"
+          placeholder="e.g. What are the top benefits available to employees after year 1?"
+          aria-label="Enter your query"></textarea>
+        <div class="char-counter" id="queryCounter">0 / 1000</div>
+      </div>
+
+      <!-- Persona -->
+      <div class="field-group">
+        <label class="field-label" for="personaInput">
+          <span class="label-icon">🎭</span> Answering Persona
+        </label>
+        <input type="text" id="personaInput" class="input"
+          placeholder="e.g. Senior HR Director at a Fortune 500 company" aria-label="Define the answering persona" />
+        <div class="field-hint">The AI will respond in the voice of this persona.</div>
+      </div>
+
+      <!-- Persona chips -->
+      <div class="persona-chips">
+        <span class="chip-label">Quick personas:</span>
+        <button class="chip" data-persona="a senior HR Director with 15 years of enterprise experience">HR
+          Director</button>
+        <button class="chip" data-persona="a seasoned legal counsel specializing in corporate compliance">Legal
+          Counsel</button>
+        <button class="chip" data-persona="a results-driven CFO focused on cost efficiency">CFO</button>
+        <button class="chip" data-persona="a technical architect with deep expertise in cloud infrastructure">Tech
+          Architect</button>
+      </div>
+
+      <!-- Generate button -->
+      <button class="btn-generate" id="generateBtn" aria-label="Generate Answer">
+        <span class="btn-inner">
+          <span class="btn-icon">⚡</span>
+          <span class="btn-text">Generate Answer</span>
+        </span>
+        <span class="btn-glow"></span>
+      </button>
+    </div>
+
+    <!-- ── Answer panel ─────────────────────────────────────────────────── -->
+    <div class="answer-panel" id="answerPanel" aria-live="polite" hidden>
+
+      <!-- Loading state -->
+      <div class="loader-container" id="loaderContainer">
+        <div class="loader-ring"></div>
+        <div class="loader-steps" id="loaderSteps">
+          <div class="step active" id="step1">🔍 Searching knowledge base…</div>
+          <div class="step" id="step2">🧠 Synthesizing context…</div>
+          <div class="step" id="step3">🎭 Drafting persona response…</div>
+        </div>
+      </div>
+
+      <!-- Answer content -->
+      <div class="answer-content" id="answerContent" hidden>
+        <div class="answer-header">
+          <div class="answer-persona-badge" id="answerPersonaBadge"></div>
+          <div class="answer-meta" id="answerMeta"></div>
+        </div>
+        <div class="answer-text" id="answerText"></div>
+
+        <!-- Sources -->
+        <div class="sources-section" id="sourcesSection" hidden>
+          <div class="sources-title">
+            <span>📚</span> Knowledge Sources
+          </div>
+          <ul class="sources-list" id="sourcesList"></ul>
+        </div>
+
+        <!-- Actions -->
+        <div class="answer-actions">
+          <button class="btn-action" id="copyBtn" title="Copy answer">
+            <span>📋</span> Copy
+          </button>
+          <button class="btn-action" id="newQueryBtn" title="New query">
+            <span>↩</span> New Query
+          </button>
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div class="error-container" id="errorContainer" hidden>
+        <div class="error-icon">⚠️</div>
+        <div class="error-text" id="errorText"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <p>UpLevyl Enterprise Domain API </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
